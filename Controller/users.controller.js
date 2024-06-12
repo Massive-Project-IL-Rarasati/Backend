@@ -37,21 +37,16 @@ export const updateUsers = async (req, res) => {
   const { id } = req.params;
 
   try {
-    // Ambil data pengguna saat ini
-    const userResult = await query("SELECT * FROM users WHERE id = ?", [
-      id,
-    ]);
+    const userResult = await query("SELECT * FROM users WHERE id = ?", [id]);
     if (userResult.length === 0) {
       return res.status(404).json({ msg: "User tidak ditemukan" });
     }
     const user = userResult[0];
 
-    // Jika password ada di body, hash password baru, jika tidak gunakan password lama
     const hashedPassword = password
       ? await bcrypt.hash(password, 10)
       : user.password;
 
-    // Update pengguna dengan data baru atau data lama jika tidak ada perubahan
     await query(
       "UPDATE users SET nama_depan=?, nama_belakang=?, password=?, email=? WHERE id=?",
       [
@@ -63,11 +58,7 @@ export const updateUsers = async (req, res) => {
       ]
     );
 
-    // Ambil data pengguna yang baru diubah
-    const updatedUserResult = await query(
-      "SELECT * FROM users WHERE id = ?",
-      [id]
-    );
+    const updatedUserResult = await query("SELECT * FROM users WHERE id = ?", [id]);
     const updatedUser = updatedUserResult[0];
 
     return res.status(200).json({ msg: "User Diubah", user: updatedUser });

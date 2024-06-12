@@ -9,13 +9,19 @@ const authenticateToken = (req, res, next) => {
 
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
-  if (!token) return res.sendStatus(401);
+  
+  if (!token) {
+    console.log("Token tidak tersedia");
+    return res.sendStatus(401);
+  }
+
   jwt.verify(token, process.env.SECRETKEY, (err, decoded) => {
     if (err) {
       // Tambahkan logging untuk memeriksa kesalahan verifikasi token
       console.error("Kesalahan verifikasi token:", err);
       return res.sendStatus(403);
     }
+    
     req.user = decoded;
     next();
   });
