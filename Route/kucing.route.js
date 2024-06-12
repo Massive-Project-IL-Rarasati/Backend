@@ -3,6 +3,7 @@ import {
     tambahKucing,
     editKucing,
     getKucing,
+    deleteKucing,
 } from "../Controller/kucing.controller.js";
 import upload from '../middleware/upload.middleware.js';  // Assuming this handles file uploads
 import checkAdmin from '../middleware/checkAdmin.js';
@@ -13,5 +14,6 @@ const router = express.Router();
 router.post('/tambahkucing', authenticateToken, checkAdmin, upload.single('foto_kucing'), tambahKucing);
 router.put('/editkucing/:cat_id', authenticateToken, checkAdmin, upload.single('foto_kucing'), editKucing);
 //router.put('', authenticateToken, editKucing);
-router.get("/kucing", getKucing);
+router.get("/kucing", authenticateToken, getKucing);
+router.delete('/delete/:cat_id', authenticateToken, deleteKucing);
 export default router;

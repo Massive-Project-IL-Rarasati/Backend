@@ -67,3 +67,21 @@ export const updateUsers = async (req, res) => {
     return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
   }
 };
+
+export const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const userResult = await query("SELECT * FROM users WHERE id = ?", [id]);
+    if (userResult.length === 0) {
+      return res.status(404).json({ msg: "User tidak ditemukan" });
+    }
+
+    await query("DELETE FROM users WHERE id = ?", [id]);
+
+    return res.status(200).json({ msg: "User berhasil dihapus" });
+  } catch (error) {
+    console.log("Terjadi kesalahan", error);
+    return res.status(500).json({ msg: "Terjadi kesalahan pada server" });
+  }
+};
