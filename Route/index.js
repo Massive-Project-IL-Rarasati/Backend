@@ -1,15 +1,14 @@
-import express from "express";
-import usersRoute from "./users.route.js";
-import authRoute from "./auth.route.js";
-import kucingRoute from "./kucing.route.js";
-import { authenticateToken } from "../middleware/validate.middleware.js";
-
+import express from 'express';
+import authRoutes from './authRoute.js';
+import userRoutes from './userRoute.js';
+import kucingRoute from "./kucingRoute.js";
+import detailKucingRoute from "./detailKucingRoute.js";
 
 const router = express.Router();
 
-console.log("Nilai SECRETKEY:", process.env.SECRETKEY);
-router.use(authRoute);
-router.use(authenticateToken, usersRoute);
-router.use(authenticateToken, kucingRoute);
+router.use(authRoutes);
+router.use(userRoutes);
+router.use(kucingRoute);
+router.use(detailKucingRoute);
 
 export default router;
