@@ -1,10 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import authRoute from './Route/authRoute.js';
-import userRoute from './Route/userRoute.js';
-import kucingRoute from './Route/kucingRoute.js';
-import detailKucingRoute from './Route/detailKucingRoute.js';
+import authRoute from './route/authRoute.js';
+import userRoute from './route/userRoute.js';
+import kucingRoute from './route/kucingRoute.js';
+import detailKucingRoute from './route/detailKucingRoute.js';
 import { testConnection } from './database/db.js';
 import passport from 'passport';
 import upload from "./middleware/upload.js";
