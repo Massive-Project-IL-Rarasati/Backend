@@ -5,6 +5,7 @@ import authRoute from './route/authRoute.js';
 import userRoute from './route/userRoute.js';
 import kucingRoute from './route/kucingRoute.js';
 import detailKucingRoute from './route/detailKucingRoute.js';
+import komunitasRoute from './route/komunitasRoute.js';
 import { testConnection } from './database/db.js';
 import passport from 'passport';
 import upload from "./middleware/upload.js";
@@ -25,6 +26,7 @@ app.use(authRoute);
 app.use(userRoute);
 app.use(kucingRoute);
 app.use(detailKucingRoute);
+app.use(komunitasRoute);
 
 app.get("/", (req, res) => {
     return res.status(200).json("OK lanjut 354");

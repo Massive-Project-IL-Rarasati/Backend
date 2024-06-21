@@ -10,10 +10,10 @@ import upload from '../middleware/upload.js';
 
 const router = express.Router();
 
-router.post('/tambah-komunitas', upload.single('image'), createKomunitas);
-router.get('/tampilkan-komunitas', getAllKomunitas);
-router.put('/edit-komunitas/:id_komunitas', upload.single('image'), updateKomunitas);
-router.get('/byid/:id_komunitas', getKomunitasById);
-router.delete('/delete/:id_komunitas', deleteKomunitas);
+router.post('/add-post', upload.single('image'), createKomunitas);
+router.get('/show-post', getAllKomunitas);
+router.put('/edit-post/:id-post', upload.single('image'), updateKomunitas);
+router.get('/byid/:id-post', getKomunitasById);
+router.delete('/delete/:id-post', deleteKomunitas);
 
 export default router;

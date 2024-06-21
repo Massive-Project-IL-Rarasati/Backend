@@ -11,12 +11,12 @@ export const createKomunitas = async (req, res) => {
     const image = req.file ? req.file.path : null;  
 
     try {
-        // Masukkan data ke dalam tabel posts
-        const result = await query('INSERT INTO posts (user_id, text, image) VALUES (?, ?, ?)', [user_id, text, image]);
+        // Masukkan data ke dalam tabel post
+        const result = await query('INSERT INTO Post (user_id, text, image) VALUES (?, ?, ?)', [user_id, text, image]);
         const insertedId = result.insertId;
 
         // Ambil data postingan yang baru saja ditambahkan
-        const [newPost] = await query('SELECT * FROM posts WHERE id_komunitas = ?', [insertedId]);
+        const [newPost] = await query('SELECT * FROM Post WHERE id_post = ?', [insertedId]);
 
         // Kirim respons sukses dengan data postingan yang baru saja ditambahkan
         res.status(201).json({ success: true, data: newPost });
@@ -29,8 +29,8 @@ export const createKomunitas = async (req, res) => {
 
 export const getAllKomunitas = async (req, res) => {
     try {
-        const posts = await query('SELECT * FROM posts');
-        res.status(200).json({ success: true, data: posts });
+        const post = await query('SELECT * FROM Post');
+        res.status(200).json({ success: true, data: post });
     } catch (error) {
         console.error('Terjadi kesalahan', error);
         res.status(500).json({ success: false, msg: 'Terjadi kesalahan pada server' });
@@ -38,9 +38,9 @@ export const getAllKomunitas = async (req, res) => {
 };
 
 export const getKomunitasById = async (req, res) => {
-    const { id } = req.params;
+    const { 'id-post': id } = req.params;
     try {
-        const [post] = await query('SELECT * FROM posts WHERE id_komunitas = ?', [id]);
+        const [post] = await query('SELECT * FROM Post WHERE id_post = ?', [id]);
         if (!post) {
             return res.status(404).json({ success: false, msg: 'Postingan tidak ditemukan' });
         }
@@ -58,13 +58,13 @@ export const updateKomunitas = async (req, res) => {
 
     try {
         const updateData = [text, image, id];
-        const result = await query('UPDATE posts SET text = ?, image = ? WHERE id_komunitas = ?', updateData);
+        const result = await query('UPDATE Post SET text = ?, image = ? WHERE id_post = ?', updateData);
         
         if (result.affectedRows === 0) {
             return res.status(404).json({ success: false, msg: 'Postingan tidak ditemukan' });
         }
 
-        const [updatedPost] = await query('SELECT * FROM posts WHERE id_komunitas = ?', [id]);
+        const [updatedPost] = await query('SELECT * FROM Post WHERE id_post = ?', [id]);
         res.status(200).json({ success: true, data: updatedPost });
     } catch (error) {
         console.error('Terjadi kesalahan', error);
@@ -76,7 +76,7 @@ export const deleteKomunitas = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const result = await query('DELETE FROM posts WHERE id_komunitas = ?', [id]);
+        const result = await query('DELETE FROM Post WHERE id_post = ?', [id]);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ success: false, msg: 'Postingan tidak ditemukan' });
