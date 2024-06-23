@@ -29,7 +29,10 @@ export const createKomunitas = async (req, res) => {
 
 export const getAllKomunitas = async (req, res) => {
     try {
-        const post = await query('SELECT * FROM Post');
+        const queryString = "select * " +
+            "from Post " +
+            "left join User U on Post.user_id = U.id"
+        const post = await query(queryString);
         res.status(200).json({ success: true, data: post });
     } catch (error) {
         console.error('Terjadi kesalahan', error);
