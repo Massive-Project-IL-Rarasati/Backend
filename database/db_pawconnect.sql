@@ -16,39 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `kucing`
+-- Table structure for table `Post`
 --
 
-DROP TABLE IF EXISTS `kucing`;
+DROP TABLE IF EXISTS `Post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `kucing` (
-  `cat_id` int NOT NULL AUTO_INCREMENT,
-  `nama_kucing` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `umur` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `kelamin` enum('Laki-laki','Perempuan') COLLATE utf8mb4_general_ci NOT NULL,
-  `berat` decimal(10,0) NOT NULL,
-  `warna` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `vaksin` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `riwayat_penyakit` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `lahir` date NOT NULL,
-  `tersedia` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `foto_kucing` blob NOT NULL,
-  `deskripsi` text COLLATE utf8mb4_general_ci NOT NULL,
-  `tlp_pemilik` int NOT NULL,
-  `latitude` decimal(10,6) DEFAULT NULL,
-  `longitude` decimal(10,6) DEFAULT NULL,
-  PRIMARY KEY (`cat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `Post` (
+                        `id_post` int NOT NULL AUTO_INCREMENT,
+                        `user_id` int DEFAULT NULL,
+                        `text` text NOT NULL,
+                        `image` blob,
+                        `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                        PRIMARY KEY (id_post),
+                        FOREIGN KEY fk_user_id (user_id) REFERENCES User (id)
+) ENGINE=InnoDB;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `kucing`
+-- Dumping data for table `Post`
 --
 
-LOCK TABLES `kucing` WRITE;
-/*!40000 ALTER TABLE `kucing` DISABLE KEYS */;
-/*!40000 ALTER TABLE `kucing` ENABLE KEYS */;
+LOCK TABLES `Post` WRITE;
+/*!40000 ALTER TABLE `Post` DISABLE KEYS */;
+INSERT INTO `Post` VALUES (1,1,'Haloooo',NULL,'2024-06-22 10:33:22'),(2,1,'Jangan error lagi yaaa\r\n',NULL,'2024-06-22 10:33:55'),(3,1,'Jangan tiba2 ngilang y codingannya, databasenya :\'\')\r\n',NULL,'2024-06-22 14:45:45'),(4,1,'Bismillahhh menyala ya ges yaa ^^\r\n',NULL,'2024-06-22 14:48:12');
+/*!40000 ALTER TABLE `Post` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -59,19 +51,19 @@ DROP TABLE IF EXISTS `User`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `User` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nama_depan` varchar(100) NOT NULL,
-  `nama_belakang` varchar(100) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password_hash` varchar(255) NOT NULL,
-  `photo` blob,
-  `tanggal_registrasi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `verifikasi` tinyint(1) NOT NULL DEFAULT '0',
-  `verifikasi_token` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `email_2` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+                        `id` int NOT NULL AUTO_INCREMENT,
+                        `nama_depan` varchar(100) NOT NULL,
+                        `nama_belakang` varchar(100) NOT NULL,
+                        `email` varchar(255) NOT NULL,
+                        `password_hash` varchar(255) NOT NULL,
+                        `photo` blob,
+                        `tanggal_registrasi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                        `verifikasi` tinyint(1) NOT NULL DEFAULT '0',
+                        `verifikasi_token` varchar(255) DEFAULT NULL,
+                        `role` varchar(50) NOT NULL DEFAULT 'user',
+                        PRIMARY KEY (`id`),
+                        UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,37 +72,8 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'John','Doe','john.doe@example.com','$2b$10$qeX8yXtH2lyvrZ44iSghAu6Ct791tAvh0IfGfRtcNCj4dICgUUw/G',NULL,'2024-06-08 07:23:50',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3ODA2MjMwLCJleHAiOjE3MTc4MDk4MzB9.MO18UPtq1R0PtaCIIXmEOqKTG2B4iYsDx39WbxecNNA'),(3,'Brilli','Zulfa','iambrillia@gmail.com','$2b$10$74tsXLDg4Y1UxcrrEh7D..qcjT1HlM6SnQJxuRz0GEMn0a30yt15e',NULL,'2024-06-08 07:59:39',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImlhbWJyaWxsaWFAZ21haWwuY29tIiwiaWF0IjoxNzE3ODA4Mzc5LCJleHAiOjE3MTc4MTE5Nzl9.jXvOSRYrWBE4v9R_pKlfZooUsX-1HayGjPsazr689gc'),(4,'Brilliannissa ','Paw','brilli_paw313@gmail.com','$2b$10$5GHn3TWKKHt5x6maOYGfxON74UaGNd296vwGwTYFkdJUdDSc1M1dS',NULL,'2024-06-09 21:00:48',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyaWxsaV9wYXczMTNAZ21haWwuY29tIiwiaWF0IjoxNzE3OTQxNjQ4LCJleHAiOjE3MTc5NDUyNDh9.BHIZ29uOkVE-XT6h0Qg-ZOenD2-Ub09mUEygPqtFKgg'),(5,'Hello','Miaw','hellomiaw@gmail.com','$2b$10$BYWIbw2mxI/MRQGtprLQUOGHbo0BzxkoJDcq44t5y8/Sgz27hcyAK',NULL,'2024-06-09 21:15:07',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbGxvbWlhd0BnbWFpbC5jb20iLCJpYXQiOjE3MTc5NDI1MDcsImV4cCI6MTcxNzk0NjEwN30.6XKK4J7ZShxwtaPowOb1X4FxPH_sYpTchGdLQQ0yslU'),(6,'Miaw','Dejiy','miaw_dejiy@gmail.com','$2b$10$CNYARS1/qCSrlysik5521eHAH9K1wF9sC3Tf.HQyXUkrJSbQn5uMy',NULL,'2024-06-09 21:25:47',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pYXdfZGVqaXlAZ21haWwuY29tIiwiaWF0IjoxNzE3OTQzMTQ3LCJleHAiOjE3MTc5NDY3NDd9.SGQQg6fFyPkCXsKvrXMSESx6eIa1aoPbNrov9jq9z5Y'),(7,'Miaw','Paw','hellomiaw1@gmail.com','$2b$10$orVgF0g0XOsSPdrPqX7GM.9TXjNuytgo4Lon2/mVzt8BqZd6V.gTW',NULL,'2024-06-10 10:37:11',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhlbGxvbWlhdzFAZ21haWwuY29tIiwiaWF0IjoxNzE3OTkwNjMxLCJleHAiOjE3MTc5OTQyMzF9.lU_6TX9IFGflbQG9nEKuq5RmrjWugwC6RT3B98k9RkU'),(9,'Brilli','Zulfa','brilli354@gmail.com','$2b$10$OEe8HdIbQODknRfDgRVcme3Bb4eVVBQiW/a8zg7e5kCTCfx27Pf4S',NULL,'2024-06-12 01:44:09',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyaWxsaTM1NEBnbWFpbC5jb20iLCJpYXQiOjE3MTgxMzE0NDksImV4cCI6MTcxODEzNTA0OX0.DItcHCsssOnGpAnGRrhAbosO5nYXgfy_j7go-WG5Ago'),(10,'Brilli','Zulfa','brilli@gmail.com','$2b$10$eldI47F7OF8LT4Ot8A6LgubnG.oBHmvYOKZEpIknjtpGE/AtO8PWy',NULL,'2024-06-12 01:46:21',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyaWxsaUBnbWFpbC5jb20iLCJpYXQiOjE3MTgxMzE1ODEsImV4cCI6MTcxODEzNTE4MX0.ZwGr17PnTCCF5H9gQXVypeTiQoWy1nghMR_Pm3CpqOo'),(11,'Brilliannissa ','Zulfa','12210836@bsi.ac.id','$2b$10$1Lb6tH549VKqeD2XE8DNy.SQfeEovaBPq.BqAO/kkLPDRm3cU1vtu',NULL,'2024-06-13 04:17:06',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6IjEyMjEwODM2QGJzaS5hYy5pZCIsImlhdCI6MTcxODIyNzAyNiwiZXhwIjoxNzE4MjMwNjI2fQ.-Nu5lAkMFnmNzuswWFcbrkD9NkLOJtpH3X318Lm7vAw');
+INSERT INTO `User` VALUES (1,'Brilli','Zulfa','brilli@gmail.com','$2b$10$yxRAQwcVgvv93AV4yxxDk.4eFKrtzFVWZPsAqoLnD55KuJhVZAyL2',NULL,'2024-06-22 17:33:05',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyaWxsaUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTcxOTA1MjM4NSwiZXhwIjoxNzE5MDU1OTg1fQ.MfDWgLaurZXVDlZ8GfI766KzrI20vyqOlNgntEIIO8s','admin');
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `UserEmailSettings`
---
-
-DROP TABLE IF EXISTS `UserEmailSettings`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `UserEmailSettings` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `email_host` varchar(255) NOT NULL,
-  `email_port` int NOT NULL,
-  `email_user` varchar(255) NOT NULL,
-  `email_pass` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `useremailsettings_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `UserEmailSettings`
---
-
-LOCK TABLES `UserEmailSettings` WRITE;
-/*!40000 ALTER TABLE `UserEmailSettings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `UserEmailSettings` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -122,4 +85,10 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-14 11:34:24
+-- Dump completed on 2024-06-23 21:17:57
+
+select * from User;
+
+select *
+from Post
+left join User U on Post.user_id = U.id

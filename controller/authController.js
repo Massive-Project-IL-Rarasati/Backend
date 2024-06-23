@@ -82,7 +82,7 @@ export const loginUser = async (req, res) => {
         const match = await bcrypt.compare(password, user.password_hash);
 
         if (!match) {
-            return res.status(401).json({ message: "Password salah" });
+            return res.status(401).json({ message: "Email atau Password salah" });
         }
 
         const token=jwt.sign({ id: user.id, email: user.email, role: "user" }, process.env.JWT_SECRET, { expiresIn: '1h' });
@@ -90,7 +90,11 @@ export const loginUser = async (req, res) => {
         
         console.log("Generated JWT Token:", token);
 
-        res.status(200).json({ message: "Login berhasil", token });
+        res.status(200).json({
+            message: "Login berhasil",
+            token,
+            id: user.id
+        });
     } catch (error) {
         console.error('Error saat login:', error);
         res.status(500).json({ message: "Error saat login pengguna", error });
