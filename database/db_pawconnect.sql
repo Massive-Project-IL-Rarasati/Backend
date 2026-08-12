@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.21, for macos10.15 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.42, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: db_pawconnect
+-- Host: localhost    Database: db_pawconnect
 -- ------------------------------------------------------
--- Server version	8.0.21
+-- Server version	8.0.40
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,64 +16,65 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `Post`
+-- Table structure for table `post`
 --
 
-DROP TABLE IF EXISTS `Post`;
+DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `Post` (
-                        `id_post` int NOT NULL AUTO_INCREMENT,
-                        `user_id` int DEFAULT NULL,
-                        `text` text NOT NULL,
-                        `image` blob,
-                        `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-                        PRIMARY KEY (id_post),
-                        FOREIGN KEY fk_user_id (user_id) REFERENCES User (id)
-) ENGINE=InnoDB;
+CREATE TABLE `post` (
+  `id_post` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `text` text NOT NULL,
+  `image` blob,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id_post`),
+  KEY `fk_user_id` (`user_id`),
+  CONSTRAINT `post_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `Post`
+-- Dumping data for table `post`
 --
 
-LOCK TABLES `Post` WRITE;
-/*!40000 ALTER TABLE `Post` DISABLE KEYS */;
-INSERT INTO `Post` VALUES (1,1,'Haloooo',NULL,'2024-06-22 10:33:22'),(2,1,'Jangan error lagi yaaa\r\n',NULL,'2024-06-22 10:33:55'),(3,1,'Jangan tiba2 ngilang y codingannya, databasenya :\'\')\r\n',NULL,'2024-06-22 14:45:45'),(4,1,'Bismillahhh menyala ya ges yaa ^^\r\n',NULL,'2024-06-22 14:48:12');
-/*!40000 ALTER TABLE `Post` ENABLE KEYS */;
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+INSERT INTO `post` VALUES (1,1,'Haloooo',NULL,'2024-06-22 10:33:22'),(5,2,'Halo selamat pagi! cat lovers\r\n',NULL,'2025-04-23 04:12:34');
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `User`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `User`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `User` (
-                        `id` int NOT NULL AUTO_INCREMENT,
-                        `nama_depan` varchar(100) NOT NULL,
-                        `nama_belakang` varchar(100) NOT NULL,
-                        `email` varchar(255) NOT NULL,
-                        `password_hash` varchar(255) NOT NULL,
-                        `photo` blob,
-                        `tanggal_registrasi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        `verifikasi` tinyint(1) NOT NULL DEFAULT '0',
-                        `verifikasi_token` varchar(255) DEFAULT NULL,
-                        `role` varchar(50) NOT NULL DEFAULT 'user',
-                        PRIMARY KEY (`id`),
-                        UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+CREATE TABLE `user` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nama_depan` varchar(100) NOT NULL,
+  `nama_belakang` varchar(100) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
+  `photo` blob,
+  `tanggal_registrasi` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `verifikasi` tinyint(1) NOT NULL DEFAULT '0',
+  `verifikasi_token` varchar(255) DEFAULT NULL,
+  `role` varchar(50) NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `User`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `User` WRITE;
-/*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'Brilli','Zulfa','brilli@gmail.com','$2b$10$yxRAQwcVgvv93AV4yxxDk.4eFKrtzFVWZPsAqoLnD55KuJhVZAyL2',NULL,'2024-06-22 17:33:05',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyaWxsaUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTcxOTA1MjM4NSwiZXhwIjoxNzE5MDU1OTg1fQ.MfDWgLaurZXVDlZ8GfI766KzrI20vyqOlNgntEIIO8s','admin');
-/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'Brilli','Zulfa','brilli@gmail.com','$2b$10$yxRAQwcVgvv93AV4yxxDk.4eFKrtzFVWZPsAqoLnD55KuJhVZAyL2',NULL,'2024-06-22 17:33:05',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyaWxsaUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTcxOTA1MjM4NSwiZXhwIjoxNzE5MDU1OTg1fQ.MfDWgLaurZXVDlZ8GfI766KzrI20vyqOlNgntEIIO8s','admin'),(2,'Brilli','Zulfa','rarasatibatch2@gmail.com','$2b$10$ZRvmghJ66Ro5FtvMZxTVXu5/Zv7ZgHLW0FVI3fVGSh5tfFa86dBs2',NULL,'2025-04-23 10:19:40',0,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJhcmFzYXRpYmF0Y2gyQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQ1Mzc4Mzc5LCJleHAiOjE3NDUzODE5Nzl9.eHSZdPXwu5UhyDA6rfR5GCms3GAQeeobZv5mWf0LuCs','user');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -85,10 +86,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-23 21:17:57
-
-select * from User;
-
-select *
-from Post
-left join User U on Post.user_id = U.id
+-- Dump completed on 2025-04-23 11:22:32
